@@ -1,0 +1,21 @@
+{
+  "name": "nodesend-server",
+  "version": "1.0.0",
+  "description": "Proyecto NodeSend",
+  "main": "index.js",
+  "scripts": {
+    "develop": "nodemon ./index.js",
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "José Pablo Medina Grande",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
