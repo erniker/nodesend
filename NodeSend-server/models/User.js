@@ -9,7 +9,7 @@ const usersSchema = new Schema({
     lowercase: true,
     trim: true,
   },
-  nombre: {
+  name: {
     type: String,
     required: true,
     trim: true,

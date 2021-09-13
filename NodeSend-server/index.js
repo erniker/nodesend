@@ -16,6 +16,7 @@ console.log("NodeSend starting...")
 
 // Rutas de la app
 app.use("/api/users", require("./routes/users"))
+app.use("/api/auth", require("./routes/auth"))
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`)
