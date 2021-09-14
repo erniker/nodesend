@@ -1,5 +1,6 @@
 const express = require("express")
 const dbConnect = require("./config/db")
+
 // crear servidor
 const app = express()
 
@@ -17,6 +18,7 @@ console.log("NodeSend starting...")
 // Rutas de la app
 app.use("/api/users", require("./routes/users"))
 app.use("/api/auth", require("./routes/auth"))
+app.use("/api/links", require("./routes/links"))
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`)

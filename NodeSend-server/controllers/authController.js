@@ -38,19 +38,4 @@ exports.userAuthentication = async (req, res, next) => {
   }
 }
 
-exports.authenticatedUser = (req, res, next) => {
-  const authHeader = req.get("Authorization")
-
-  if (authHeader) {
-    // Obtener el token
-    const token = authHeader.split(" ")[1]
-    // Comprobar el JWT
-    try {
-      const user = jwt.verify(token, process.env.SECRET)
-      res.status(200).json(user)
-    } catch (error) {
-      res.status(401).json({ error: "JWT not valid" })
-    }
-  }
-  return next()
-}
+exports.authenticatedUser = (req, res, next) => {}
