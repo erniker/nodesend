@@ -45,3 +45,22 @@ exports.newLink = async (req, res, next) => {
     })
   }
 }
+
+// Obtener enlace
+exports.getLink = async (req, res, next) => {
+  const { url } = req.params
+
+  // Verificar si existe el enlace
+  const link = await Links.findOne({ url })
+
+  if (!link) {
+    res.status(404).json({ msg: 'Url not found' })
+    return next()
+  }
+  // si el enlace existe
+  res.status(200).json({ file: link.name })
+
+  // Si las descargas son iguales a 1 -> Borrar registro y borrar archivo
+
+  // Si las descargas son mayores a 1 -> Restar 1
+}

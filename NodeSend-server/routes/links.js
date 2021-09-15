@@ -16,4 +16,8 @@ router.post(
   }
 )
 
+router.get('/:url', function (req, res, next) {
+  linkController.getLink(req, res, next)
+})
+
 module.exports = router
