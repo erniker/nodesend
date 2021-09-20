@@ -61,6 +61,17 @@ exports.getLink = async (req, res, next) => {
   res.status(200).json({ file: link.name })
 
   // Si las descargas son iguales a 1 -> Borrar registro y borrar archivo
-
-  // Si las descargas son mayores a 1 -> Restar 1
+  const { downloads, name } = link
+  console.log(downloads)
+  if (downloads === 1) {
+    // Eliminar el archivo
+    req.file = name
+    // Eliminar de la base de datos
+    await Links.findOneAndRemove(req.params.url)
+    next()
+  } else {
+    // Si las descargas son mayores a 1 -> Restar 1
+    link.downloads--
+    await link.save()
+  }
 }
