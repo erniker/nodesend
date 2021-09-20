@@ -1,29 +1,34 @@
-import React from "react";
-import Layout from "../components/Layout";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useContext, useEffect } from 'react'
+import Layout from '../components/Layout'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import authContext from '../context/auth/authContext'
 
 const SingUp = () => {
+  // Acceder al state
+  const AuthContext = useContext(authContext)
+  const { usuarioAutenticado, token } = AuthContext
+
   // Formulario y validacion con Formik y Yup
   const formik = useFormik({
     initialValues: {
-      nombre: "",
-      email: "",
-      password: "",
+      nombre: '',
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
-      nombre: Yup.string().required("El nombre es obligatorio"),
+      nombre: Yup.string().required('El nombre es obligatorio'),
       email: Yup.string()
-        .email("Email no valido")
-        .required("El email es obligatorio"),
+        .email('Email no valido')
+        .required('El email es obligatorio'),
       password: Yup.string()
-        .required("El password es obligatorio")
-        .min(8, "El password debe tener al menos 8 caracteres"),
+        .required('El password es obligatorio')
+        .min(8, 'El password debe tener al menos 8 caracteres'),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: values => {
+      console.log(values)
     },
-  });
+  })
   return (
     <>
       <Layout>
@@ -35,14 +40,12 @@ const SingUp = () => {
             <div className="w-full mx-w-lg">
               <form
                 className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
-                onSubmit={formik.handleSubmit}
-              >
+                onSubmit={formik.handleSubmit}>
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
-                    htmlFor="nombre"
-                  >
-                    Nombre:{" "}
+                    htmlFor="nombre">
+                    Nombre:{' '}
                     <input
                       type="text"
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -63,9 +66,8 @@ const SingUp = () => {
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
-                    htmlFor="email"
-                  >
-                    Email:{" "}
+                    htmlFor="email">
+                    Email:{' '}
                     <input
                       type="email"
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -86,9 +88,8 @@ const SingUp = () => {
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
-                    htmlFor="password"
-                  >
-                    Contraseña:{" "}
+                    htmlFor="password">
+                    Contraseña:{' '}
                     <input
                       type="password"
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -117,7 +118,7 @@ const SingUp = () => {
         </div>
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default SingUp;
+export default SingUp
