@@ -1,11 +1,17 @@
 const express = require('express')
 const dbConnect = require('./config/db')
-
+const cors = require('cors')
 // crear servidor
 const app = express()
 
 // Conectar a la DB
 dbConnect()
+
+// Habilitar Cors
+const corsOption = {
+  origin: process.env.FRONTEND_URL,
+}
+app.use(cors(corsOption))
 
 // Puerto de la app
 const port = process.env.Port || 4000
@@ -14,6 +20,9 @@ const port = process.env.Port || 4000
 app.use(express.json())
 
 console.log('NodeSend starting...')
+
+//Habilitar carpeta publica
+app.use(express.static('uploads'))
 
 // Rutas de la app
 app.use('/api/users', require('./routes/users'))

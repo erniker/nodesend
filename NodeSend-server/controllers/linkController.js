@@ -10,12 +10,12 @@ exports.newLink = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() })
   }
   // Crear objeto
-  const { original_name } = req.body
+  const { nombre_original, nombre } = req.body
 
   const link = new Links()
   link.url = shortid.generate()
-  link.name = shortid.generate()
-  link.original_name = original_name
+  link.nombre = nombre
+  link.nombre_original = nombre_original
 
   // Si el usuario está autenticado
   if (req.user) {
@@ -31,7 +31,7 @@ exports.newLink = async (req, res, next) => {
       link.password = await bcrypt.hash(password, salt)
     }
     // Asignar el autor
-    link.author = req.user.id
+    link.autor = req.user.id
   }
   // Almacenar en la BD
   try {
@@ -49,7 +49,6 @@ exports.newLink = async (req, res, next) => {
 // Obtener enlace
 exports.getLink = async (req, res, next) => {
   const { url } = req.params
-
   // Verificar si existe el enlace
   const link = await Links.findOne({ url })
 
@@ -58,20 +57,17 @@ exports.getLink = async (req, res, next) => {
     return next()
   }
   // si el enlace existe
-  res.status(200).json({ file: link.name })
+  res.status(200).json({ file: link.nombre })
 
-  // Si las descargas son iguales a 1 -> Borrar registro y borrar archivo
-  const { downloads, name } = link
-  console.log(downloads)
-  if (downloads === 1) {
-    // Eliminar el archivo
-    req.file = name
-    // Eliminar de la base de datos
-    await Links.findOneAndRemove(req.params.url)
-    next()
-  } else {
-    // Si las descargas son mayores a 1 -> Restar 1
-    link.downloads--
-    await link.save()
+  next()
+}
+
+// Obtener listado de todos los enlaces
+exports.getAllLink = async (req, res, next) => {
+  try {
+    const links = await Links.find({}).select('url -_id')
+    res.status(200).json({ links })
+  } catch (error) {
+    console.log(error)
   }
 }

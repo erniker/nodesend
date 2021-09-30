@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-require("dotenv").config({ path: ".env" })
+const mongoose = require('mongoose')
+require('dotenv').config({ path: '.env' })
 
 const dbConnect = async () => {
   try {
@@ -9,7 +9,7 @@ const dbConnect = async () => {
       //   useFindAndModify: false,
       //   useCreateIndex: true,
     })
-    console.log("DB connected")
+    console.log('DB connected')
   } catch (error) {
     console.log(`Error connecting with database: 
                     ${error}`)

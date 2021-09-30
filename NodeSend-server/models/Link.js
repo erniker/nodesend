@@ -1,4 +1,4 @@
-const moongose = require("mongoose")
+const moongose = require('mongoose')
 const schema = moongose.Schema
 
 const linkSchema = new moongose.Schema({
@@ -6,11 +6,11 @@ const linkSchema = new moongose.Schema({
     type: String,
     required: true,
   },
-  name: {
+  nombre: {
     type: String,
     required: true,
   },
-  original_name: {
+  nombre_original: {
     type: String,
     required: true,
   },
@@ -18,9 +18,9 @@ const linkSchema = new moongose.Schema({
     type: Number,
     default: 1,
   },
-  author: {
+  autor: {
     type: moongose.Schema.Types.ObjectId,
-    ref: "Users",
+    ref: 'Users',
     default: null,
   },
   password: {
@@ -33,4 +33,4 @@ const linkSchema = new moongose.Schema({
   },
 })
 
-module.exports = moongose.model("Links", linkSchema)
+module.exports = moongose.model('Links', linkSchema)

@@ -8,8 +8,8 @@ const auth = require('../middleware/auth')
 router.post(
   '/',
   [
-    check('name', 'Upload a file').not().isEmpty(),
-    check('original_name', 'Upload a file').not().isEmpty(),
+    check('nombre', 'Upload a file').not().isEmpty(),
+    check('nombre_original', 'Upload a file').not().isEmpty(),
   ],
   auth,
   function (req, res, next) {
@@ -17,14 +17,12 @@ router.post(
   }
 )
 
-router.get(
-  '/:url',
-  function (req, res, next) {
-    linkController.getLink(req, res, next)
-  },
-  function (req, res, next) {
-    fileController.deleteFile(req, res, next)
-  }
-)
+router.get('/', function (req, res, next) {
+  linkController.getAllLink(req, res, next)
+})
+
+router.get('/:url', function (req, res, next) {
+  linkController.getLink(req, res, next)
+})
 
 module.exports = router

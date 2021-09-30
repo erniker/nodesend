@@ -1,45 +1,59 @@
-import React from "react";
-import Layout from "../components/Layout";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useContext, useEffect } from 'react'
+import Layout from '../components/Layout'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import authContext from '../context/auth/authContext'
+import Alert from '../components/Alert'
+import { useRouter } from 'next/router'
 
 const Login = () => {
+  // Acceder al state
+  const AuthContext = useContext(authContext)
+  const { mensaje, autenticado, iniciarSesion } = AuthContext
+
+  // Next.js router
+  const router = useRouter()
+  useEffect(() => {
+    if (autenticado) {
+      router.push('/')
+    }
+  }, [autenticado])
+
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Email no valido")
-        .required("El email es obligatorio"),
+        .email('Email no valido')
+        .required('El email es obligatorio'),
       password: Yup.string()
-        .required("El password es obligatorio")
-        .min(8, "El password debe tener al menos 8 caracteres"),
+        .required('El password es obligatorio')
+        .min(8, 'El password debe tener al menos 8 caracteres'),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: values => {
+      iniciarSesion(values)
     },
-  });
+  })
   return (
     <>
       <Layout>
         <div className="md:w-4/5 xl:w-3/5 mx-auto mb-32">
           <h2 className="text-4xl font-sans font-bold text-gray-800 text-center my-4">
-            Crear Cuenta
+            Iniciar Sesión
           </h2>
+          {mensaje && <Alert />}
           <div className="flex justify-center mt-5">
-            <div className="w-full mx-w-lg">
+            <div className="w-full max-w-lg">
               <form
                 className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
-                onSubmit={formik.handleSubmit}
-              >
+                onSubmit={formik.handleSubmit}>
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
-                    htmlFor="email"
-                  >
-                    Email:{" "}
+                    htmlFor="email">
+                    Email:{' '}
                     <input
                       type="email"
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -60,9 +74,8 @@ const Login = () => {
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
-                    htmlFor="password"
-                  >
-                    Contraseña:{" "}
+                    htmlFor="password">
+                    Contraseña:{' '}
                     <input
                       type="password"
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -91,7 +104,7 @@ const Login = () => {
         </div>
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
