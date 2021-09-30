@@ -32,35 +32,29 @@ exports.uploadFile = async (req, res, next) => {
   })
 }
 
-exports.deleteFile = async (req, res, next) => {
-  console.log(req.file)
+exports.deleteFile = async (req, res) => {
   try {
-    fs.unlinkSync(__dirname + `/../uploads/${req.file}`)
+    fs.unlinkSync(__dirname + `/../uploads/${req.params.file}`)
     console.log('archivo eliminado')
   } catch (error) {
     console.log('archivo eliminado')
   }
 }
 
-exports.download = async (rec, res, next) => {
+exports.download = async (req, res, next) => {
   // Obtener Enlace
   const { file } = req.params
   const link = await Link.findOne({ nombre: file })
-
-  console.log(file)
-
-  const fileDownload = __dirname + '/../uploads' + file
-  rest.download(fileDownload)
-
+  const fileDownload = __dirname + '/../uploads/' + file
+  res.download(fileDownload)
   // Eliminar el archivo y la enrada de la BD
   // Si las descargas son iguales a 1 -> Borrar registro y borrar archivo
   const { downloads, nombre } = link
-  console.log(downloads)
   if (downloads === 1) {
     // Eliminar el archivo
     req.file = nombre
     // Eliminar de la base de datos
-    await Links.findOneAndRemove(req.params.url)
+    await Link.findOneAndRemove(link.id)
     next()
   } else {
     // Si las descargas son mayores a 1 -> Restar 1
