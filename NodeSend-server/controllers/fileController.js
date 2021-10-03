@@ -49,8 +49,8 @@ exports.download = async (req, res, next) => {
   res.download(fileDownload)
   // Eliminar el archivo y la enrada de la BD
   // Si las descargas son iguales a 1 -> Borrar registro y borrar archivo
-  const { downloads, nombre } = link
-  if (downloads === 1) {
+  const { descargas, nombre } = link
+  if (descargas === 1) {
     // Eliminar el archivo
     req.file = nombre
     // Eliminar de la base de datos
@@ -58,7 +58,7 @@ exports.download = async (req, res, next) => {
     next()
   } else {
     // Si las descargas son mayores a 1 -> Restar 1
-    link.downloads--
+    link.descargas--
     await link.save()
   }
 }

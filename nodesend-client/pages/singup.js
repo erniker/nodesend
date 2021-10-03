@@ -48,22 +48,22 @@ const SingUp = () => {
                     className="block text-black text-sm font-bold mb-2"
                     htmlFor="nombre">
                     Nombre:{' '}
-                    <input
-                      type="text"
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="nombre"
-                      placeholder="Nombre de Usuario"
-                      value={formik.values.nombre}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.nombre && formik.errors.nombre ? (
-                      <div className="my-2 bg-gray-200 border-l-4 border-red-500 text-red-700 p-4">
-                        <p className="font-bold">Error</p>
-                        <p>{formik.errors.nombre}</p>
-                      </div>
-                    ) : null}
                   </label>
+                  <input
+                    type="text"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="nombre"
+                    placeholder="Nombre de Usuario"
+                    value={formik.values.nombre}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.nombre && formik.errors.nombre ? (
+                    <div className="my-2 bg-gray-200 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{formik.errors.nombre}</p>
+                    </div>
+                  ) : null}
                 </div>
                 <div className="mb-4">
                   <label

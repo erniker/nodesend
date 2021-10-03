@@ -21,8 +21,24 @@ router.get('/', function (req, res, next) {
   linkController.getAllLink(req, res, next)
 })
 
-router.get('/:url', function (req, res, next) {
-  linkController.getLink(req, res, next)
-})
+router.get(
+  '/:url',
+  function (req, res, next) {
+    linkController.hasPasword(req, res, next)
+  },
+  function (req, res, next) {
+    linkController.getLink(req, res, next)
+  }
+)
+
+router.post(
+  '/:url',
+  function (req, res, next) {
+    linkController.verifyPassword(req, res, next)
+  },
+  function (req, res, next) {
+    linkController.getLink(req, res, next)
+  }
+)
 
 module.exports = router

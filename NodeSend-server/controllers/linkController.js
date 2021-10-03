@@ -2,6 +2,7 @@ const Links = require('../models/Link')
 const shortid = require('shortid')
 const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
+const { enableUnicode } = require('npmlog')
 
 exports.newLink = async (req, res, next) => {
   // Revisar si hay erroes
@@ -19,11 +20,11 @@ exports.newLink = async (req, res, next) => {
 
   // Si el usuario está autenticado
   if (req.user) {
-    const { password, downloads } = req.body
+    const { password, descargas } = req.body
 
     // Asignar a enlace el número de descargas
-    if (downloads) {
-      link.downloads = downloads
+    if (descargas) {
+      link.descargas = descargas
     }
     // Asignar un password
     if (password) {
@@ -46,6 +47,39 @@ exports.newLink = async (req, res, next) => {
   }
 }
 
+// Comprobar si el archivo tiene contraseña
+exports.hasPasword = async (req, res, next) => {
+  const { url } = req.params
+  // Verificar si existe el enlace
+  const link = await Links.findOne({ url })
+
+  if (!link) {
+    res.status(404).json({ msg: 'Url not found' })
+    return next()
+  }
+  if (link.password) {
+    return res.json({ password: true, file: link.nombre, url: link.url })
+  }
+  return next()
+}
+
+// Verificar si el password de archivo es correcto
+exports.verifyPassword = async (req, res, next) => {
+  const { url } = req.params
+  const { password } = req.body
+
+  // Consultar por el enlace
+  const link = await Links.findOne({ url })
+
+  // Veridficar el password
+  if (bcrypt.compareSync(password, link.password)) {
+    // Permitir al usario descargar el archivo
+    next()
+  } else {
+    return res.status(401).json({ msg: 'Password incorrecto' })
+  }
+}
+
 // Obtener enlace
 exports.getLink = async (req, res, next) => {
   const { url } = req.params
@@ -57,7 +91,7 @@ exports.getLink = async (req, res, next) => {
     return next()
   }
   // si el enlace existe
-  res.status(200).json({ file: link.nombre })
+  res.status(200).json({ file: link.nombre, password: false })
 
   next()
 }

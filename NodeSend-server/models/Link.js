@@ -14,7 +14,7 @@ const linkSchema = new moongose.Schema({
     type: String,
     required: true,
   },
-  downloads: {
+  descargas: {
     type: Number,
     default: 1,
   },
